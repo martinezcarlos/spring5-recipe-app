@@ -9,14 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by carlosmartinez on 29/11/2018 17:19
  */
 @Entity
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
 
   @Id
