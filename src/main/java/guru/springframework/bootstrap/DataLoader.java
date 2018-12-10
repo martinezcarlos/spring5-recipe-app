@@ -11,7 +11,6 @@ import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -50,27 +49,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     // Imaginary categories
     final Set<Category> iCategories = new HashSet<>();
     categoryRepository.findAllByDescription(Arrays.asList("Mexican", "Fast Food"))
-        .forEach(c -> iCategories.add(c));
+        .iterator()
+        .forEachRemaining(iCategories::add);
     // Imaginary notes
     final Notes iNotes = createNotes("This is an imaginary recipe. Cook it however you want.");
     // Imaginary recipe
     final Recipe iRecipe = createRecipe("Imaginary Recipe", 30, 60, 2, "imagination",
         "my.imagination.co", "Do this, then do that", null, iNotes, iIngredients, Difficulty.EASY,
         iCategories);
-    //recipeRepository.save(iRecipe);
-    // Update ingredients
-    iIngredients.forEach(i -> {
-      i.setRecipe(iRecipe);
-      //ingredientRepository.save(i);
-    });
-    // Update categories
-    iCategories.forEach(c -> {
-      c.getRecipes().addAll(Collections.singleton(iRecipe));
-      //categoryRepository.save(c);
-    });
-    // Update notes
-    iNotes.setRecipe(iRecipe);
-    //TODO: update notes
     recipeRepository.save(iRecipe);
   }
 
@@ -108,7 +94,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     recipe.setDirections(directions);
     recipe.setImage(image);
     recipe.setNotes(notes);
-    recipe.setIngredients(ingredients);
+    ingredients.forEach(recipe::addIngredient);
     recipe.setDifficulty(difficulty);
     recipe.setCategories(categories);
     return recipe;
