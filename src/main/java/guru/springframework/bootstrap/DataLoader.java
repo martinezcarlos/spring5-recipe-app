@@ -6,14 +6,14 @@ import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Notes;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.CategoryRepository;
-import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -22,25 +22,23 @@ import org.springframework.stereotype.Component;
  * Created by carlosmartinez on 05/12/2018 18:21
  */
 @Component
-@AllArgsConstructor
+@Log4j2
+@RequiredArgsConstructor
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
   private final RecipeRepository recipeRepository;
-  private final IngredientRepository ingredientRepository;
   private final CategoryRepository categoryRepository;
   private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-  //@Override
-  //public void run(final String... args) throws Exception {
-  //  createImaginaryRecipe();
-  //}
-
   @Override
   public void onApplicationEvent(final ContextRefreshedEvent event) {
+    log.info("=== Bootstraping data ===");
     createImaginaryRecipe();
+    log.info("=== Finished Bootstraping data ===");
   }
 
   private void createImaginaryRecipe() {
+    log.info("=== Creating imaginary recipe ===");
     // Imaginary ingredients
     final Set<Ingredient> iIngredients = new HashSet<>();
     iIngredients.add(createIngredient("Salt", 2, "Teaspoon"));
@@ -58,10 +56,12 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         "my.imagination.co", "Do this, then do that", null, iNotes, iIngredients, Difficulty.EASY,
         iCategories);
     recipeRepository.save(iRecipe);
+    log.info("=== Finished creating imaginary recipe ===");
   }
 
   private Ingredient createIngredient(final String description, final double ammount,
       final String unitOfMeasure) {
+    log.info("=== Creating igredient '{}' ===", description);
     final Ingredient ingredient = new Ingredient();
     ingredient.setDescription(description);
     ingredient.setAmount(BigDecimal.valueOf(ammount));
@@ -74,6 +74,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
   }
 
   private Notes createNotes(final String recipeNotes) {
+    log.info("=== Creating notes ===");
     final Notes notes = new Notes();
     notes.setRecipeNotes(recipeNotes);
     return notes;
