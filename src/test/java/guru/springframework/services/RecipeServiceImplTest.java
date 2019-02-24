@@ -3,12 +3,16 @@ package guru.springframework.services;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import java.util.Collections;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,5 +37,19 @@ public class RecipeServiceImplTest {
     when(recipeService.getRecipes()).thenReturn(Collections.singleton(new Recipe()));
     assertEquals(1, recipeService.getRecipes().size());
     verify(recipeRepository, times(1)).findAll();
+  }
+
+  @Test
+  public void getRecipesById() {
+    final Recipe recipe = new Recipe();
+    recipe.setId(1L);
+
+    when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+
+    final Recipe recipeFound = recipeService.findById(1L);
+
+    assertNotNull("Null recipe returned", recipeFound);
+    verify(recipeRepository, times(1)).findById(anyLong());
+    verify(recipeRepository, never()).findAll();
   }
 }

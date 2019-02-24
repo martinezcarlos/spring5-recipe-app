@@ -12,6 +12,4 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
   Optional<Category> findByDescription(String description);
-
-  Iterable<Category> findAllByDescription(Iterable<String> descriptions);
 }

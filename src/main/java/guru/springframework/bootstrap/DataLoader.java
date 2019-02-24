@@ -1,6 +1,5 @@
 package guru.springframework.bootstrap;
 
-import guru.springframework.domain.Category;
 import guru.springframework.domain.Difficulty;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Notes;
@@ -44,17 +43,12 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     iIngredients.add(createIngredient("Salt", 2, "Teaspoon"));
     iIngredients.add(createIngredient("Pepper", 3, "Pinch"));
     iIngredients.add(createIngredient("Chicken breast", 2, "Unit"));
-    // Imaginary categories
-    final Set<Category> iCategories = new HashSet<>();
-    categoryRepository.findAllByDescription(Arrays.asList("Mexican", "Fast Food"))
-        .iterator()
-        .forEachRemaining(iCategories::add);
     // Imaginary notes
     final Notes iNotes = createNotes("This is an imaginary recipe. Cook it however you want.");
     // Imaginary recipe
     final Recipe iRecipe = createRecipe("Imaginary Recipe", 30, 60, 2, "imagination",
         "my.imagination.co", "Do this, then do that", null, iNotes, iIngredients, Difficulty.EASY,
-        iCategories);
+        new HashSet<>(Arrays.asList("Mexican", "Fast Food")));
     recipeRepository.save(iRecipe);
     log.info("=== Finished creating imaginary recipe ===");
   }
@@ -84,7 +78,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
       final Integer cookTime, final Integer servings, final String source, final String url,
       final String directions, final Byte[] image, final Notes notes,
       final Set<Ingredient> ingredients, final Difficulty difficulty,
-      final Set<Category> categories) {
+      final Set<String> categories) {
     final Recipe recipe = new Recipe();
     recipe.setDescription(description);
     recipe.setPrepTime(prepTime);
@@ -97,7 +91,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     recipe.setNotes(notes);
     ingredients.forEach(recipe::addIngredient);
     recipe.setDifficulty(difficulty);
-    recipe.setCategories(categories);
+    categories.forEach(c -> recipe.getCategories()
+        .add(categoryRepository.findByDescription(c)
+            .orElseThrow(() -> new IllegalArgumentException("Unknown category " + c))));
     return recipe;
   }
 }

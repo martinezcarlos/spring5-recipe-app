@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,4 +29,14 @@ public class Ingredient {
   private Recipe recipe;
   @OneToOne(fetch = FetchType.EAGER)
   private UnitOfMeasure unitOfMeasure;
+
+  @Transient
+  public String buildQuantityDescription() {
+    return new StringBuilder().append(amount.toString())
+        .append(" ")
+        .append(unitOfMeasure.getDescription())
+        .append(" of ")
+        .append(description)
+        .toString();
+  }
 }
