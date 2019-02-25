@@ -1,9 +1,13 @@
 package guru.springframework.services;
 
+import guru.springframework.commands.RecipeCommand;
+import guru.springframework.converters.RecipeCommandToRecipe;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import java.util.HashSet;
 import java.util.Set;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class RecipeServiceImpl implements RecipeService {
 
   private final RecipeRepository recipeRepository;
+  private final RecipeCommandToRecipe recipeCommandToRecipe;
+  private final RecipeToRecipeCommand recipeToRecipeCommand;
 
   @Override
   public Set<Recipe> getRecipes() {
@@ -32,5 +38,14 @@ public class RecipeServiceImpl implements RecipeService {
     log.info("=== Getting recipe with id {} ===", id);
     return recipeRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Recipe not found"));
+  }
+
+  @Override
+  @Transactional
+  public RecipeCommand saveRecipeCommand(final RecipeCommand command) {
+    final Recipe deatachedEntity = recipeCommandToRecipe.convert(command);
+    final Recipe savedRecipe = recipeRepository.save(deatachedEntity);
+    log.debug("Saved recipe " + savedRecipe.getId());
+    return recipeToRecipeCommand.convert(savedRecipe);
   }
 }
