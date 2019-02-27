@@ -59,11 +59,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     final Ingredient ingredient = new Ingredient();
     ingredient.setDescription(description);
     ingredient.setAmount(BigDecimal.valueOf(ammount));
-    ingredient.setUnitOfMeasure(
-        unitOfMeasureRepository.findByDescription(unitOfMeasure).orElseThrow(() -> {
-          return new IllegalArgumentException(
-              "No Unit Of Measure found for the description " + unitOfMeasure);
-        }));
+    ingredient.setUnitOfMeasure(unitOfMeasureRepository.findByDescription(unitOfMeasure)
+        .orElseThrow(() -> new IllegalArgumentException(
+            "No Unit Of Measure found for the description " + unitOfMeasure)));
     return ingredient;
   }
 

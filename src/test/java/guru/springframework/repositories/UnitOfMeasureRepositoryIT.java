@@ -31,4 +31,14 @@ public class UnitOfMeasureRepositoryIT {
         "Teaspoon");
     assertEquals("Teaspoon", uomOptional.get().getDescription());
   }
+
+  //@Test(expected = IllegalArgumentException.class)
+  //public void exceptionOnFinByDescription() {
+  //  // Given
+  //  final UnitOfMeasureRepository repository = mock(UnitOfMeasureRepository.class);
+  //  when(repository.findByDescription(anyString())).thenReturn(Optional.empty());
+  //  // When
+  //  repository.findByDescription("Teaspoon");
+  //  // Then
+  //}
 }

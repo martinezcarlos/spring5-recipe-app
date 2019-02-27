@@ -25,17 +25,24 @@ public class RecipeServiceImpl implements RecipeService {
   private final RecipeToRecipeCommand recipeToRecipeCommand;
 
   @Override
+  @Transactional
+  public void deleteById(final Long id) {
+    log.debug("=== Deleting recipe with id {} ===", id);
+    recipeRepository.deleteById(id);
+  }
+
+  @Override
   public Set<Recipe> getRecipes() {
-    log.info("=== Getting recipes ===");
+    log.debug("=== Getting recipes ===");
     final Set<Recipe> recipes = new HashSet<>();
     recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
-    log.info("=== {} recipes found ===", recipes.size());
+    log.debug("=== {} recipes found ===", recipes.size());
     return recipes;
   }
 
   @Override
   public Recipe findById(final Long id) {
-    log.info("=== Getting recipe with id {} ===", id);
+    log.debug("=== Getting recipe with id {} ===", id);
     return recipeRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Recipe not found"));
   }

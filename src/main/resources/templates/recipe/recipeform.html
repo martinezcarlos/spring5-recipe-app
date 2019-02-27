@@ -136,6 +136,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-md-12 form-group">
+                    <input th:field="*{notes.id}" type="hidden"/>
                     <textarea class="form-control" rows="3"
                               th:field="*{notes.recipeNotes}"></textarea>
                   </div>
