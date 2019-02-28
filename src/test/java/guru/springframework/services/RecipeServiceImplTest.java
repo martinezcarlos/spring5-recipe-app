@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -74,7 +75,10 @@ public class RecipeServiceImplTest {
     // Given
     final Recipe recipe = new Recipe();
     recipe.setId(1L);
+    final RecipeCommand commandMock = new RecipeCommand();
+    commandMock.setId(1L);
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+    when(recipeToRecipeCommand.convert(any())).thenReturn(commandMock);
     // When
     final RecipeCommand command = recipeService.findCommandById(1L);
     // Then
