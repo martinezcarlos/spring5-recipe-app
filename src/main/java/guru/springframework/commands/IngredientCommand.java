@@ -1,6 +1,7 @@
 package guru.springframework.commands;
 
 import java.math.BigDecimal;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,4 +17,14 @@ public class IngredientCommand {
   private String description;
   private BigDecimal amount;
   private UnitOfMeasureCommand unitOfMeasure;
+
+  @Transient
+  public String buildQuantityDescription() {
+    return new StringBuilder().append(amount.toString())
+        .append(" ")
+        .append(unitOfMeasure.getDescription())
+        .append(" of ")
+        .append(description)
+        .toString();
+  }
 }
