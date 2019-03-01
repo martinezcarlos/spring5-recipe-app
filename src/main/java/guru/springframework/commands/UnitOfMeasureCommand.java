@@ -1,14 +1,12 @@
 package guru.springframework.commands;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Created by carlosmartinez on 2019-02-24 14:36
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UnitOfMeasureCommand {
   private Long id;
