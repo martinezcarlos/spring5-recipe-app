@@ -7,6 +7,8 @@ import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -63,23 +65,39 @@ public class IngredientServiceImpl implements IngredientService {
         .stream()
         .filter(i -> i.getId().equals(command.getId()))
         .findFirst();
+
+    final List<Ingredient> originalList;
     if (ingredientOptional.isPresent()) {
-      final Ingredient found = ingredientOptional.get();
-      found.setDescription(command.getDescription());
-      found.setAmount(command.getAmount());
+      originalList = null;
+      final Ingredient ingredient = ingredientOptional.get();
+      ingredient.setDescription(command.getDescription());
+      ingredient.setAmount(command.getAmount());
       final Long uomId = command.getUnitOfMeasure().getId();
-      found.setUnitOfMeasure(unitOfMeasureRepository.findById(uomId)
+      ingredient.setUnitOfMeasure(unitOfMeasureRepository.findById(uomId)
           .orElseThrow(
               () -> new NoSuchElementException("Unit of measure not fount for id " + uomId)));
     } else {
+      originalList = new ArrayList<>(recipe.getIngredients());
       recipe.addIngredient(commandToEntityConverter.convert(command));
     }
 
     final Recipe savedRecipe = recipeRepository.save(recipe);
-    return entityToCommandConverter.convert(savedRecipe.getIngredients()
-        .stream()
-        .filter(i -> i.getId().equals(command.getId()))
-        .findFirst()
-        .get());
+
+    final Ingredient ingredient;
+    if (command.getId() == null) {
+      ingredient = savedRecipe.getIngredients()
+          .stream()
+          .filter(i -> !originalList.contains(i))
+          .findFirst()
+          .get();
+    } else {
+      ingredient = savedRecipe.getIngredients()
+          .stream()
+          .filter(i -> i.getId().equals(command.getId()))
+          .findFirst()
+          .get();
+    }
+
+    return entityToCommandConverter.convert(ingredient);
   }
 }

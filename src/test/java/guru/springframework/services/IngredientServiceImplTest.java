@@ -128,7 +128,6 @@ public class IngredientServiceImplTest {
   public void saveNewIngredient() {
     // Given
     final IngredientCommand command = new IngredientCommand();
-    command.setId(2L);
     command.setRecipeId(1L);
 
     final Recipe savedRecipe = new Recipe();
