@@ -100,4 +100,29 @@ public class IngredientServiceImpl implements IngredientService {
 
     return entityToCommandConverter.convert(ingredient);
   }
+
+  @Override
+  @Transactional
+  public void deleteById(final Long recipeId, final Long ingredientId) {
+    if (recipeId == null || ingredientId == null) {
+      throw new IllegalArgumentException("Ids cannot be null");
+    }
+    final Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+    if (!recipeOptional.isPresent()) {
+      throw new NoSuchElementException("No recipe found for id " + recipeId);
+    }
+    final Recipe recipe = recipeOptional.get();
+    final Optional<Ingredient> ingredientOptional = recipe.getIngredients()
+        .stream()
+        .filter(i -> i.getId().equals(ingredientId))
+        .findFirst();
+
+    if (!ingredientOptional.isPresent()) {
+      throw new NoSuchElementException("No ingredient found for id " + ingredientId);
+    }
+    final Ingredient ingredientToDelete = ingredientOptional.get();
+    recipe.getIngredients().remove(ingredientToDelete);
+    ingredientToDelete.setRecipe(null);
+    recipeRepository.save(recipe);
+  }
 }

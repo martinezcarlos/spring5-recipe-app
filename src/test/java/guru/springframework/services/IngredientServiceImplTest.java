@@ -15,16 +15,20 @@ import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,11 +36,13 @@ import static org.mockito.Mockito.when;
  */
 public class IngredientServiceImplTest {
 
+  @Rule
+  public final ExpectedException expectedEx = ExpectedException.none();
+
   private final IngredientToIngredientCommand entityToCommandConverter
       = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
   private final IngredientCommandToIngredient commandToEntityConverter
       = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
-
   @Mock
   private RecipeRepository recipeRepository;
   @Mock
@@ -125,7 +131,7 @@ public class IngredientServiceImplTest {
   }
 
   @Test
-  public void saveNewIngredient() {
+  public void saveIngredientCommand() {
     // Given
     final IngredientCommand command = new IngredientCommand();
     command.setRecipeId(1L);
@@ -145,7 +151,7 @@ public class IngredientServiceImplTest {
   }
 
   @Test
-  public void saveExistingIngredient() {
+  public void updateIngredientCommand() {
     // Given
     final UnitOfMeasureCommand uomCommand = new UnitOfMeasureCommand();
     uomCommand.setId(1L);
@@ -189,5 +195,62 @@ public class IngredientServiceImplTest {
     // When
     ingredientService.saveIngredientCommand(new IngredientCommand());
     // Then
+  }
+
+  @Test
+  public void nullIdsToDelete() {
+    // Given
+    expectedEx.expect(IllegalArgumentException.class);
+    expectedEx.expectMessage("Ids cannot be null");
+    // When
+    ingredientService.deleteById(null, null);
+    // Then
+    verifyZeroInteractions(recipeRepository);
+  }
+
+  @Test
+  public void ingredientRecipeToDeleteNotFound() {
+    // Given
+    expectedEx.expect(NoSuchElementException.class);
+    expectedEx.expectMessage(startsWith("No recipe found for id"));
+    when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
+    // When
+    ingredientService.deleteById(1L, 1L);
+    // Then
+    verify(recipeRepository, times(1)).findById(anyLong());
+  }
+
+  @Test
+  public void ingredientToDeleteNotFound() {
+    // Given
+    expectedEx.expect(NoSuchElementException.class);
+    expectedEx.expectMessage(startsWith("No ingredient found for id"));
+
+    //final Ingredient ingredient = new Ingredient();
+    //ingredient.setId(1L);
+    //final Recipe recipe = new Recipe();
+    //recipe.addIngredient(ingredient);
+    when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(new Recipe()));
+    // When
+    ingredientService.deleteById(1L, 1L);
+    // Then
+    verify(recipeRepository, times(1)).findById(any());
+  }
+
+  @Test
+  public void deleteIngredientCommand() {
+    // Given
+    final Ingredient ingredient = new Ingredient();
+    ingredient.setId(1L);
+    final Recipe recipe = new Recipe();
+    recipe.addIngredient(ingredient);
+    when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+    // When
+    ingredientService.deleteById(1L, 1L);
+    final IngredientCommand deletedCommand = ingredientService.findByRecipeIdAndIngredientId(1L,
+        1L);
+    // Then
+    assertNull(deletedCommand);
+    verify(recipeRepository, times(2)).findById(anyLong());
   }
 }
