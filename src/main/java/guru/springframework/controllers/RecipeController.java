@@ -21,37 +21,32 @@ public class RecipeController {
 
   private final RecipeService recipeService;
 
-  @PostMapping
-  @RequestMapping("saveOrUpdate")
+  @PostMapping("saveOrUpdate")
   public String saveOrUpdate(@ModelAttribute final RecipeCommand command) {
     final RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
     return "redirect:/recipe/" + savedCommand.getId() + "/show";
   }
 
-  @GetMapping
-  @RequestMapping("{id}/show")
+  @GetMapping("{id}/show")
   public String showById(@PathVariable("id") final long id, final Model model) {
     model.addAttribute("recipe", recipeService.findById(id));
     return "recipe/show";
   }
 
-  @GetMapping
-  @RequestMapping("new")
+  @GetMapping("new")
   public String newRecipe(final Model model) {
     model.addAttribute("recipe", new RecipeCommand());
     return "recipe/recipeform";
   }
 
-  @GetMapping
-  @RequestMapping("{id}/update")
+  @GetMapping("{id}/update")
   public String updateRecipe(@PathVariable final String id, final Model model) {
     model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
     return "recipe/recipeform";
   }
 
-  @PostMapping
-  @RequestMapping("{id}/delete")
-  public String deleteRecipe(@PathVariable final String id) {
+  @GetMapping("{id}/delete")
+  public String deleteById(@PathVariable final String id) {
     recipeService.deleteById(Long.valueOf(id));
     return "redirect:/";
   }
