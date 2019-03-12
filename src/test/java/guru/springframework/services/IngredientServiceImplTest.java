@@ -9,10 +9,10 @@ import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.domain.UnitOfMeasure;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Rule;
@@ -118,7 +118,7 @@ public class IngredientServiceImplTest {
     // Then
   }
 
-  @Test(expected = NoSuchElementException.class)
+  @Test(expected = NotFoundException.class)
   public void exceptionNoRecipe() {
     // Given
     final IngredientCommand command = new IngredientCommand();
@@ -187,7 +187,7 @@ public class IngredientServiceImplTest {
     verify(recipeRepository, times(1)).save(any(Recipe.class));
   }
 
-  @Test(expected = NoSuchElementException.class)
+  @Test(expected = NotFoundException.class)
   public void unitOfMeasureNotFound() {
     // Given
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(new Recipe()));
@@ -211,7 +211,7 @@ public class IngredientServiceImplTest {
   @Test
   public void ingredientRecipeToDeleteNotFound() {
     // Given
-    expectedEx.expect(NoSuchElementException.class);
+    expectedEx.expect(NotFoundException.class);
     expectedEx.expectMessage(startsWith("No recipe found for id"));
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
     // When
@@ -223,7 +223,7 @@ public class IngredientServiceImplTest {
   @Test
   public void ingredientToDeleteNotFound() {
     // Given
-    expectedEx.expect(NoSuchElementException.class);
+    expectedEx.expect(NotFoundException.class);
     expectedEx.expectMessage(startsWith("No ingredient found for id"));
 
     //final Ingredient ingredient = new Ingredient();

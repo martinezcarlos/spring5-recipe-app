@@ -5,11 +5,11 @@ import guru.springframework.converters.IngredientCommandToIngredient;
 import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class IngredientServiceImpl implements IngredientService {
     final Long recipeId = command.getRecipeId();
     final Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
     if (!recipeOptional.isPresent()) {
-      throw new NoSuchElementException("Recipe not found for id " + recipeId);
+      throw new NotFoundException("Recipe not found for id " + recipeId);
     }
     final Recipe recipe = recipeOptional.get();
     final Optional<Ingredient> ingredientOptional = recipe.getIngredients()
@@ -74,8 +74,7 @@ public class IngredientServiceImpl implements IngredientService {
       ingredient.setAmount(command.getAmount());
       final Long uomId = command.getUnitOfMeasure().getId();
       ingredient.setUnitOfMeasure(unitOfMeasureRepository.findById(uomId)
-          .orElseThrow(
-              () -> new NoSuchElementException("Unit of measure not fount for id " + uomId)));
+          .orElseThrow(() -> new NotFoundException("Unit of measure not fount for id " + uomId)));
     } else {
       originalList = new ArrayList<>(recipe.getIngredients());
       recipe.addIngredient(commandToEntityConverter.convert(command));
@@ -109,7 +108,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
     final Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
     if (!recipeOptional.isPresent()) {
-      throw new NoSuchElementException("No recipe found for id " + recipeId);
+      throw new NotFoundException("No recipe found for id " + recipeId);
     }
     final Recipe recipe = recipeOptional.get();
     final Optional<Ingredient> ingredientOptional = recipe.getIngredients()
@@ -118,7 +117,7 @@ public class IngredientServiceImpl implements IngredientService {
         .findFirst();
 
     if (!ingredientOptional.isPresent()) {
-      throw new NoSuchElementException("No ingredient found for id " + ingredientId);
+      throw new NotFoundException("No ingredient found for id " + ingredientId);
     }
     final Ingredient ingredientToDelete = ingredientOptional.get();
     recipe.getIngredients().remove(ingredientToDelete);
