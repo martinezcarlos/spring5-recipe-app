@@ -1,19 +1,15 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
-import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -55,21 +51,5 @@ public class RecipeController {
   public String deleteById(@PathVariable final String id) {
     recipeService.deleteById(Long.valueOf(id));
     return "redirect:/";
-  }
-
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  @ExceptionHandler(NotFoundException.class)
-  public ModelAndView handleNotFound(final Exception exception) {
-    final ModelAndView mav = new ModelAndView("404error");
-    mav.addObject("exception", exception);
-    return mav;
-  }
-
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ExceptionHandler(NumberFormatException.class)
-  public ModelAndView handleNumberFormatException(final Exception exception) {
-    final ModelAndView mav = new ModelAndView("400error");
-    mav.addObject("exception", exception);
-    return mav;
   }
 }
