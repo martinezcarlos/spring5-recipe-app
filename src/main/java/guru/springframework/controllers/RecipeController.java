@@ -1,15 +1,20 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by carlosmartinez on 05/12/2018 10:08
@@ -28,9 +33,10 @@ public class RecipeController {
   }
 
   @GetMapping("{id}/show")
-  public String showById(@PathVariable("id") final long id, final Model model) {
-    model.addAttribute("recipe", recipeService.findById(id));
-    return "recipe/show";
+  public ModelAndView showById(@PathVariable final String id) {
+    final ModelAndView mav = new ModelAndView("recipe/show");
+    mav.addObject(recipeService.findById(Long.valueOf(id)));
+    return mav;
   }
 
   @GetMapping("new")
@@ -49,5 +55,21 @@ public class RecipeController {
   public String deleteById(@PathVariable final String id) {
     recipeService.deleteById(Long.valueOf(id));
     return "redirect:/";
+  }
+
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NotFoundException.class)
+  public ModelAndView handleNotFound(final Exception exception) {
+    final ModelAndView mav = new ModelAndView("404error");
+    mav.addObject("exception", exception);
+    return mav;
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(NumberFormatException.class)
+  public ModelAndView handleNumberFormatException(final Exception exception) {
+    final ModelAndView mav = new ModelAndView("400error");
+    mav.addObject("exception", exception);
+    return mav;
   }
 }
