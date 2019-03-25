@@ -23,9 +23,9 @@ import static org.mockito.Mockito.when;
  */
 //@RunWith(SpringRunner.class)
 @DataJpaTest
-public class DataLoaderTest {
+public class DataLoaderH2Test {
 
-  private DataLoader loader;
+  private DataLoaderH2 loader;
   @Mock
   private RecipeRepository recipeRepository;
   @Mock
@@ -36,7 +36,7 @@ public class DataLoaderTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    loader = new DataLoader(recipeRepository, categoryRepository, unitOfMeasureRepository);
+    loader = new DataLoaderH2(recipeRepository, categoryRepository, unitOfMeasureRepository);
   }
 
   @Test(expected = IllegalArgumentException.class)

@@ -14,6 +14,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Log4j2
 @RequiredArgsConstructor
-public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
+@Profile("default")
+public class DataLoaderH2 implements ApplicationListener<ContextRefreshedEvent> {
 
   private final RecipeRepository recipeRepository;
   private final CategoryRepository categoryRepository;
