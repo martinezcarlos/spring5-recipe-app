@@ -19,8 +19,6 @@ jobs:
     environment:
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
-      # Codecov properties
-      CODECOV_TOKEN: "73a2820e-e967-41f2-9b7e-116f5656cada"
 
     steps:
       - checkout
@@ -48,4 +46,5 @@ jobs:
 
       - run:
           name: Send to Codecov
+          language: java
           command: bash <(curl -s https://codecov.io/bash)
