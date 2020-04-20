@@ -13,9 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:17
- */
+/** Created by carlosmartinez on 2019-02-24 16:17 */
 public class RecipeToRecipeCommandTest {
 
   private static final Long RECIPE_ID = 1L;
@@ -32,13 +30,15 @@ public class RecipeToRecipeCommandTest {
   private static final Long INGRED_ID_1 = 3L;
   private static final Long INGRED_ID_2 = 4L;
   private static final Long NOTES_ID = 9L;
-  RecipeToRecipeCommand converter;
+  private RecipeToRecipeCommand converter;
 
   @Before
   public void setUp() throws Exception {
-    converter = new RecipeToRecipeCommand(new CategoryToCategoryCommand(),
-        new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
-        new NotesToNotesCommand());
+    converter =
+        new RecipeToRecipeCommand(
+            new CategoryToCategoryCommand(),
+            new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
+            new NotesToNotesCommand());
   }
 
   @Test
@@ -53,7 +53,7 @@ public class RecipeToRecipeCommandTest {
 
   @Test
   public void convert() throws Exception {
-    //given
+    // given
     final Recipe recipe = new Recipe();
     recipe.setId(RECIPE_ID);
     recipe.setCookTime(COOK_TIME);
@@ -88,10 +88,10 @@ public class RecipeToRecipeCommandTest {
     recipe.getIngredients().add(ingredient);
     recipe.getIngredients().add(ingredient2);
 
-    //when
+    // when
     final RecipeCommand command = converter.convert(recipe);
 
-    //then
+    // then
     assertNotNull(command);
     assertEquals(RECIPE_ID, command.getId());
     assertEquals(COOK_TIME, command.getCookTime());

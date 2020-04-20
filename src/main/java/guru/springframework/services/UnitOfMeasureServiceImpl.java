@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by carlosmartinez on 2019-02-28 21:45
- */
+/** Created by carlosmartinez on 2019-02-28 21:45 */
 @RequiredArgsConstructor
 @Log4j2
 @Service
@@ -26,7 +24,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     log.debug("=== Looking for all the unit of measures ===");
     return StreamSupport.stream(unitOfMeasureRepository.findAll().spliterator(), false)
         .map(converter::convert)
-        //.sorted(Comparator.comparing(UnitOfMeasureCommand::getDescription))
+        // .sorted(Comparator.comparing(UnitOfMeasureCommand::getDescription))
         .collect(Collectors.toSet());
   }
 }

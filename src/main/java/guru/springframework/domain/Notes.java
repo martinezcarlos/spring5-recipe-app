@@ -10,9 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-/**
- * Created by carlosmartinez on 29/11/2018 16:31
- */
+/** Created by carlosmartinez on 29/11/2018 16:31 */
 @Entity
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
@@ -22,8 +20,7 @@ public class Notes {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @OneToOne
-  private Recipe recipe;
-  @Lob
-  private String recipeNotes;
+
+  @OneToOne private Recipe recipe;
+  @Lob private String recipeNotes;
 }

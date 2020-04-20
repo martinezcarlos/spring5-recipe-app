@@ -17,9 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Data;
 
-/**
- * Created by carlosmartinez on 29/11/2018 16:31
- */
+/** Created by carlosmartinez on 29/11/2018 16:31 */
 @Entity
 @Data
 public class Recipe {
@@ -27,6 +25,7 @@ public class Recipe {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String description;
   private Integer prepTime;
   private Integer cookTime;
@@ -34,16 +33,22 @@ public class Recipe {
   private String source;
   private String url;
   private String directions;
-  @Lob
-  private Byte[] image;
+  @Lob private Byte[] image;
+
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   private Notes notes;
+
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
   private Set<Ingredient> ingredients = new HashSet<>();
+
   @Enumerated(value = EnumType.STRING)
   private Difficulty difficulty;
+
   @ManyToMany
-  @JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+  @JoinTable(
+      name = "recipe_category",
+      joinColumns = @JoinColumn(name = "recipe_id"),
+      inverseJoinColumns = @JoinColumn(name = "category_id"))
   private Set<Category> categories = new HashSet<>();
 
   public void setNotes(final Notes notes) {

@@ -9,9 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:13
- */
+/** Created by carlosmartinez on 2019-02-24 16:13 */
 public class NotesCommandToNotesTest {
 
   private static final Long ID_VALUE = new Long(1L);
@@ -35,15 +33,15 @@ public class NotesCommandToNotesTest {
 
   @Test
   public void convert() throws Exception {
-    //given
+    // given
     final NotesCommand notesCommand = new NotesCommand();
     notesCommand.setId(ID_VALUE);
     notesCommand.setRecipeNotes(RECIPE_NOTES);
 
-    //when
+    // when
     final Notes notes = converter.convert(notesCommand);
 
-    //then
+    // then
     assertNotNull(notes);
     assertEquals(ID_VALUE, notes.getId());
     assertEquals(RECIPE_NOTES, notes.getRecipeNotes());

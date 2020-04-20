@@ -11,34 +11,30 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by carlosmartinez on 2019-01-15 13:22
- */
+/** Created by carlosmartinez on 2019-01-15 13:22 */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
 
-  @Autowired
-  private UnitOfMeasureRepository unitOfMeasureRepository;
+  @Autowired private UnitOfMeasureRepository unitOfMeasureRepository;
 
   @Before
-  public void setUp() throws Exception {
-  }
+  public void setUp() throws Exception {}
 
   @Test
   public void findByDescription() {
-    final Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription(
-        "Teaspoon");
+    final Optional<UnitOfMeasure> uomOptional =
+        unitOfMeasureRepository.findByDescription("Teaspoon");
     assertEquals("Teaspoon", uomOptional.get().getDescription());
   }
 
-  //@Test(expected = IllegalArgumentException.class)
-  //public void exceptionOnFinByDescription() {
+  // @Test(expected = IllegalArgumentException.class)
+  // public void exceptionOnFinByDescription() {
   //  // Given
   //  final UnitOfMeasureRepository repository = mock(UnitOfMeasureRepository.class);
   //  when(repository.findByDescription(anyString())).thenReturn(Optional.empty());
   //  // When
   //  repository.findByDescription("Teaspoon");
   //  // Then
-  //}
+  // }
 }

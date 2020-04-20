@@ -22,24 +22,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by carlosmartinez on 2018-12-27 13:58
- */
+/** Created by carlosmartinez on 2018-12-27 13:58 */
 public class RecipeServiceImplTest {
 
   private RecipeService recipeService;
-  @Mock
-  private RecipeRepository recipeRepository;
-  @Mock
-  private RecipeCommandToRecipe recipeCommandToRecipe;
-  @Mock
-  private RecipeToRecipeCommand recipeToRecipeCommand;
+  @Mock private RecipeRepository recipeRepository;
+  @Mock private RecipeCommandToRecipe recipeCommandToRecipe;
+  @Mock private RecipeToRecipeCommand recipeToRecipeCommand;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe,
-        recipeToRecipeCommand);
+    recipeService =
+        new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
   }
 
   @Test

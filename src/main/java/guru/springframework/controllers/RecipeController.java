@@ -15,21 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * Created by carlosmartinez on 05/12/2018 10:08
- */
+/** Created by carlosmartinez on 05/12/2018 10:08 */
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/recipe/")
 @Controller
 public class RecipeController {
 
-  public static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
+  private static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
   private final RecipeService recipeService;
 
   @PostMapping("saveOrUpdate")
-  public String saveOrUpdate(@Valid @ModelAttribute("recipe") final RecipeCommand command,
-      final BindingResult result) {
+  public String saveOrUpdate(
+      @Valid @ModelAttribute("recipe") final RecipeCommand command, final BindingResult result) {
     if (result.hasErrors()) {
       result.getAllErrors().forEach(log::debug);
       return RECIPE_RECIPEFORM_URL;

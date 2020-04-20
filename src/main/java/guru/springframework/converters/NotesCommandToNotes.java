@@ -7,9 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by carlosmartinez on 2019-02-24 15:50
- */
+/** Created by carlosmartinez on 2019-02-24 15:50 */
 @Component
 public class NotesCommandToNotes implements Converter<NotesCommand, Notes> {
 

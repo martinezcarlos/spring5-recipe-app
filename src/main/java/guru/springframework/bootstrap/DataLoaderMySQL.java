@@ -11,16 +11,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by carlosmartinez on 05/12/2018 18:21
- */
+/** Created by carlosmartinez on 05/12/2018 18:21 */
 @Component
 @Log4j2
 @RequiredArgsConstructor
-@Profile({
-    "dev",
-    "prod"
-})
+@Profile({"dev", "prod"})
 public class DataLoaderMySQL implements ApplicationListener<ContextRefreshedEvent> {
 
   private final CategoryRepository categoryRepository;

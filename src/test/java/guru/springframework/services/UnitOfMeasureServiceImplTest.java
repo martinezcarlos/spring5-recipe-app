@@ -17,22 +17,18 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by carlosmartinez on 2019-02-28 21:46
- */
+/** Created by carlosmartinez on 2019-02-28 21:46 */
 public class UnitOfMeasureServiceImplTest {
 
-  @Mock
-  private UnitOfMeasureRepository unitOfMeasureRepository;
-  @Mock
-  private UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
+  @Mock private UnitOfMeasureRepository unitOfMeasureRepository;
+  @Mock private UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
   private UnitOfMeasureService unitOfMeasureService;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    unitOfMeasureService = new UnitOfMeasureServiceImpl(unitOfMeasureRepository,
-        unitOfMeasureToUnitOfMeasureCommand);
+    unitOfMeasureService =
+        new UnitOfMeasureServiceImpl(unitOfMeasureRepository, unitOfMeasureToUnitOfMeasureCommand);
   }
 
   @Test
@@ -41,8 +37,8 @@ public class UnitOfMeasureServiceImplTest {
     final Set<UnitOfMeasure> unitOfMeasures = Collections.emptySet();
     when(unitOfMeasureRepository.findAll()).thenReturn(unitOfMeasures);
     // When
-    final Set<UnitOfMeasureCommand> unitOfMeasureCommands
-        = unitOfMeasureService.findAllUnitOfMeasuresCommand();
+    final Set<UnitOfMeasureCommand> unitOfMeasureCommands =
+        unitOfMeasureService.findAllUnitOfMeasuresCommand();
     // Then
     assertTrue(unitOfMeasureCommands.isEmpty());
     verify(unitOfMeasureRepository, times(1)).findAll();
@@ -54,8 +50,8 @@ public class UnitOfMeasureServiceImplTest {
     final Set<UnitOfMeasure> unitOfMeasures = Collections.singleton(new UnitOfMeasure());
     when(unitOfMeasureRepository.findAll()).thenReturn(unitOfMeasures);
     // When
-    final Set<UnitOfMeasureCommand> unitOfMeasureCommands
-        = unitOfMeasureService.findAllUnitOfMeasuresCommand();
+    final Set<UnitOfMeasureCommand> unitOfMeasureCommands =
+        unitOfMeasureService.findAllUnitOfMeasuresCommand();
     // Then
     assertFalse(unitOfMeasureCommands.isEmpty());
     verify(unitOfMeasureRepository, times(1)).findAll();

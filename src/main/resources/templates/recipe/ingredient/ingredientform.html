@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
-  <!-- Last compiled and minified CSS -->
-  <link crossorigin="anonymous"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <!-- Last compiled and minified CSS -->
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
 
-  <!-- Last compiled and minified JQuery -->
-  <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <!-- Last compiled and minified JQuery -->
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
 
-  <!-- Last compiled and minified JavaScript -->
-  <script crossorigin="anonymous"
-          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-          src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-          th:href="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <!-- Last compiled and minified JavaScript -->
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            th:href="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 
-  <title>Edit ingredient</title>
-</head>
-<body>
+    <title>Edit ingredient</title>
+  </head>
+  <body>
 
-  <div class="container" style="margin-top: 20px">
+    <div class="container" style="margin-top: 20px">
 
-    <form method="post"
-          th:action="@{'/recipe/' + ${ingredient.recipeId} + '/ingredient'}"
-          th:object="${ingredient}">
-      <input th:field="*{id}" type="hidden"/>
-      <div class="card">
-        <div class="card-header bg-info text-light">
-          <h1 class="card-title h3">Edit ingredient information</h1>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-3 form-group">
-              <label>Description:</label>
-              <input class="form-control" th:field="*{description}" type="text"/>
-            </div>
-            <div class="col-md-3 form-group">
-              <label>Ammount:</label>
-              <input class="form-control" th:field="*{amount}" type="number"/>
-            </div>
-            <div class="col-md-3 form-group">
-              <label>Unit of measurement:</label>
-              <!--=== It can be tied to the property by 'name'. In this case the 'value' ===-->
-              <!--=== of the disabled option IS NOT neccesay                             ===-->
-              <!--<select class="form-control" name="unitOfMeasure.id">-->
-              <!--<option disabled>Please select...</option>-->
-
-              <!--=== It can be tied to the property by 'th:field'. In this case the 'value' ===-->
-              <!--=== of the disabled option IS neccesay                                     ===-->
-              <select class="form-control" th:field="*{unitOfMeasure.id}">
-                <option disabled th:value="null">Please select...</option>
-                <option th:each="uom : ${uomList}"
-                        th:selected="${uom.id.equals(ingredient.unitOfMeasure.id)}"
-                        th:text="${uom.description}"
-                        th:value="${uom.id}">Example measure
-                </option>
-              </select>
-            </div>
+      <form method="post"
+            th:action="@{'/recipe/' + ${ingredient.recipeId} + '/ingredient'}"
+            th:object="${ingredient}">
+        <input th:field="*{id}" type="hidden"/>
+        <div class="card">
+          <div class="card-header bg-info text-light">
+            <h1 class="card-title h3">Edit ingredient information</h1>
           </div>
-          <button class="btn btn-primary" type="submit">Submit</button>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 form-group">
+                <label>Description:</label>
+                <input class="form-control" th:field="*{description}" type="text"/>
+              </div>
+              <div class="col-md-3 form-group">
+                <label>Ammount:</label>
+                <input class="form-control" th:field="*{amount}" type="number"/>
+              </div>
+              <div class="col-md-3 form-group">
+                <label>Unit of measurement:</label>
+                <!--=== It can be tied to the property by 'name'. In this case the 'value' ===-->
+                <!--=== of the disabled option IS NOT neccesay                             ===-->
+                <!--<select class="form-control" name="unitOfMeasure.id">-->
+                <!--<option disabled>Please select...</option>-->
+
+                <!--=== It can be tied to the property by 'th:field'. In this case the 'value' ===-->
+                <!--=== of the disabled option IS neccesay                                     ===-->
+                <select class="form-control" th:field="*{unitOfMeasure.id}">
+                  <option disabled th:value="null">Please select...</option>
+                  <option th:each="uom : ${uomList}"
+                          th:selected="${uom.id.equals(ingredient.unitOfMeasure.id)}"
+                          th:text="${uom.description}"
+                          th:value="${uom.id}">Example measure
+                  </option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
 
-  </div>
+    </div>
 
-</body>
+  </body>
 </html>

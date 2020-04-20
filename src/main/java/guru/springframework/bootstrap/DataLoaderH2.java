@@ -18,9 +18,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by carlosmartinez on 05/12/2018 18:21
- */
+/** Created by carlosmartinez on 05/12/2018 18:21 */
 @Component
 @Log4j2
 @RequiredArgsConstructor
@@ -48,22 +46,37 @@ public class DataLoaderH2 implements ApplicationListener<ContextRefreshedEvent> 
     // Imaginary notes
     final Notes iNotes = createNotes("This is an imaginary recipe. Cook it however you want.");
     // Imaginary recipe
-    final Recipe iRecipe = createRecipe("Imaginary Recipe", 30, 60, 2, "imagination",
-        "my.imagination.co", "Do this, then do that", null, iNotes, iIngredients, Difficulty.EASY,
-        new HashSet<>(Arrays.asList("Mexican", "Fast Food")));
+    final Recipe iRecipe =
+        createRecipe(
+            "Imaginary Recipe",
+            30,
+            60,
+            2,
+            "imagination",
+            "my.imagination.co",
+            "Do this, then do that",
+            null,
+            iNotes,
+            iIngredients,
+            Difficulty.EASY,
+            new HashSet<>(Arrays.asList("Mexican", "Fast Food")));
     recipeRepository.save(iRecipe);
     log.info("=== Finished creating imaginary recipe ===");
   }
 
-  private Ingredient createIngredient(final String description, final double ammount,
-      final String unitOfMeasure) {
+  private Ingredient createIngredient(
+      final String description, final double ammount, final String unitOfMeasure) {
     log.info("=== Creating igredient '{}' ===", description);
     final Ingredient ingredient = new Ingredient();
     ingredient.setDescription(description);
     ingredient.setAmount(BigDecimal.valueOf(ammount));
-    ingredient.setUnitOfMeasure(unitOfMeasureRepository.findByDescription(unitOfMeasure)
-        .orElseThrow(() -> new IllegalArgumentException(
-            "No Unit Of Measure found for the description " + unitOfMeasure)));
+    ingredient.setUnitOfMeasure(
+        unitOfMeasureRepository
+            .findByDescription(unitOfMeasure)
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "No Unit Of Measure found for the description " + unitOfMeasure)));
     return ingredient;
   }
 
@@ -74,10 +87,18 @@ public class DataLoaderH2 implements ApplicationListener<ContextRefreshedEvent> 
     return notes;
   }
 
-  private Recipe createRecipe(final String description, final Integer prepTime,
-      final Integer cookTime, final Integer servings, final String source, final String url,
-      final String directions, final Byte[] image, final Notes notes,
-      final Set<Ingredient> ingredients, final Difficulty difficulty,
+  private Recipe createRecipe(
+      final String description,
+      final Integer prepTime,
+      final Integer cookTime,
+      final Integer servings,
+      final String source,
+      final String url,
+      final String directions,
+      final Byte[] image,
+      final Notes notes,
+      final Set<Ingredient> ingredients,
+      final Difficulty difficulty,
       final Set<String> categories) {
     final Recipe recipe = new Recipe();
     recipe.setDescription(description);
@@ -91,9 +112,14 @@ public class DataLoaderH2 implements ApplicationListener<ContextRefreshedEvent> 
     recipe.setNotes(notes);
     ingredients.forEach(recipe::addIngredient);
     recipe.setDifficulty(difficulty);
-    categories.forEach(c -> recipe.getCategories()
-        .add(categoryRepository.findByDescription(c)
-            .orElseThrow(() -> new IllegalArgumentException("Unknown category " + c))));
+    categories.forEach(
+        c ->
+            recipe
+                .getCategories()
+                .add(
+                    categoryRepository
+                        .findByDescription(c)
+                        .orElseThrow(() -> new IllegalArgumentException("Unknown category " + c))));
     return recipe;
   }
 }

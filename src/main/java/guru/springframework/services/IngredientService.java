@@ -2,9 +2,7 @@ package guru.springframework.services;
 
 import guru.springframework.commands.IngredientCommand;
 
-/**
- * Created by carlosmartinez on 2019-02-28 17:09
- */
+/** Created by carlosmartinez on 2019-02-28 17:09 */
 public interface IngredientService {
   IngredientCommand findByRecipeIdAndIngredientId(long recipeId, long ingredientId);
 

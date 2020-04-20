@@ -8,9 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Created by carlosmartinez on 2019-03-04 20:27
- */
+/** Created by carlosmartinez on 2019-03-04 20:27 */
 @RequiredArgsConstructor
 @Log4j2
 @Service

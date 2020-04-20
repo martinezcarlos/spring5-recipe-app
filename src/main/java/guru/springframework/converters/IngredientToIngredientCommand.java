@@ -8,9 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by carlosmartinez on 2019-02-24 15:53
- */
+/** Created by carlosmartinez on 2019-02-24 15:53 */
 @RequiredArgsConstructor
 @Component
 public class IngredientToIngredientCommand implements Converter<Ingredient, IngredientCommand> {

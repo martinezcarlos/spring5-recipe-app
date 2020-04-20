@@ -23,15 +23,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-/**
- * Created by carlosmartinez on 2018-12-27 14:14
- */
+/** Created by carlosmartinez on 2018-12-27 14:14 */
 public class IndexControllerTest {
 
-  @Mock
-  private RecipeService recipeService;
-  @Mock
-  private Model model;
+  @Mock private RecipeService recipeService;
+  @Mock private Model model;
 
   private IndexController indexController;
 
@@ -49,9 +45,9 @@ public class IndexControllerTest {
 
   @Test
   public void getIndexPageText() {
-    //When
+    // When
     final String indexPage = indexController.getIndexPage(model);
-    //Then
+    // Then
     assertEquals("index", indexPage);
     verify(recipeService, times(1)).getRecipes();
     verify(model, times(1)).addAttribute(eq("recipes"), anySet());
@@ -59,14 +55,14 @@ public class IndexControllerTest {
 
   @Test
   public void recipeStoredInModel() {
-    //Given
+    // Given
     final Recipe recipe = new Recipe();
     recipe.setDescription("Dummy description");
     when(recipeService.getRecipes()).thenReturn(Collections.singleton(recipe));
     final ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
-    //When
+    // When
     indexController.getIndexPage(model);
-    //Then
+    // Then
     verify(recipeService, times(1)).getRecipes();
     verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
     assertEquals(recipe, argumentCaptor.getValue().iterator().next());

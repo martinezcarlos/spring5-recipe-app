@@ -31,30 +31,29 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by carlosmartinez on 2019-02-28 17:26
- */
+/** Created by carlosmartinez on 2019-02-28 17:26 */
 public class IngredientServiceImplTest {
 
-  @Rule
-  public final ExpectedException expectedEx = ExpectedException.none();
+  @Rule public final ExpectedException expectedEx = ExpectedException.none();
 
-  private final IngredientToIngredientCommand entityToCommandConverter
-      = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
-  private final IngredientCommandToIngredient commandToEntityConverter
-      = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
-  @Mock
-  private RecipeRepository recipeRepository;
-  @Mock
-  private UnitOfMeasureRepository unitOfMeasureRepository;
+  private final IngredientToIngredientCommand entityToCommandConverter =
+      new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+  private final IngredientCommandToIngredient commandToEntityConverter =
+      new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
+  @Mock private RecipeRepository recipeRepository;
+  @Mock private UnitOfMeasureRepository unitOfMeasureRepository;
 
   private IngredientService ingredientService;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    ingredientService = new IngredientServiceImpl(entityToCommandConverter,
-        commandToEntityConverter, recipeRepository, unitOfMeasureRepository);
+    ingredientService =
+        new IngredientServiceImpl(
+            entityToCommandConverter,
+            commandToEntityConverter,
+            recipeRepository,
+            unitOfMeasureRepository);
   }
 
   @Test
@@ -81,7 +80,7 @@ public class IngredientServiceImplTest {
 
   @Test
   public void findByRecipeIdAndIngredientId() {
-    //given
+    // given
     final Recipe recipe = new Recipe();
     recipe.setId(1L);
 
@@ -100,11 +99,11 @@ public class IngredientServiceImplTest {
 
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
 
-    //when
-    final IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId(1L,
-        3L);
+    // when
+    final IngredientCommand ingredientCommand =
+        ingredientService.findByRecipeIdAndIngredientId(1L, 3L);
 
-    //then
+    // then
     assertEquals(Long.valueOf(3L), ingredientCommand.getId());
     assertEquals(Long.valueOf(1L), ingredientCommand.getRecipeId());
     verify(recipeRepository, times(1)).findById(anyLong());
@@ -226,10 +225,10 @@ public class IngredientServiceImplTest {
     expectedEx.expect(NotFoundException.class);
     expectedEx.expectMessage(startsWith("No ingredient found for id"));
 
-    //final Ingredient ingredient = new Ingredient();
-    //ingredient.setId(1L);
-    //final Recipe recipe = new Recipe();
-    //recipe.addIngredient(ingredient);
+    // final Ingredient ingredient = new Ingredient();
+    // ingredient.setId(1L);
+    // final Recipe recipe = new Recipe();
+    // recipe.addIngredient(ingredient);
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(new Recipe()));
     // When
     ingredientService.deleteById(1L, 1L);
@@ -247,8 +246,8 @@ public class IngredientServiceImplTest {
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
     // When
     ingredientService.deleteById(1L, 1L);
-    final IngredientCommand deletedCommand = ingredientService.findByRecipeIdAndIngredientId(1L,
-        1L);
+    final IngredientCommand deletedCommand =
+        ingredientService.findByRecipeIdAndIngredientId(1L, 1L);
     // Then
     assertNull(deletedCommand);
     verify(recipeRepository, times(2)).findById(anyLong());

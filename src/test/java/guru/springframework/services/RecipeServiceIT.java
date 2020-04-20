@@ -14,40 +14,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by carlosmartinez on 2019-02-25 13:12
- */
+/** Created by carlosmartinez on 2019-02-25 13:12 */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RecipeServiceIT {
 
   private static final String NEW_DESCRIPTION = "New Description";
 
-  @Autowired
-  RecipeService recipeService;
+  @Autowired RecipeService recipeService;
 
-  @Autowired
-  RecipeRepository recipeRepository;
+  @Autowired RecipeRepository recipeRepository;
 
-  @Autowired
-  RecipeCommandToRecipe recipeCommandToRecipe;
+  @Autowired RecipeCommandToRecipe recipeCommandToRecipe;
 
-  @Autowired
-  RecipeToRecipeCommand recipeToRecipeCommand;
+  @Autowired RecipeToRecipeCommand recipeToRecipeCommand;
 
   @Transactional
   @Test
   public void testSaveOfDescription() throws Exception {
-    //given
+    // given
     final Iterable<Recipe> recipes = recipeRepository.findAll();
     final Recipe testRecipe = recipes.iterator().next();
     final RecipeCommand testRecipeCommand = recipeToRecipeCommand.convert(testRecipe);
 
-    //when
+    // when
     testRecipeCommand.setDescription(NEW_DESCRIPTION);
     final RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
 
-    //then
+    // then
     assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());
     assertEquals(testRecipe.getId(), savedRecipeCommand.getId());
     assertEquals(testRecipe.getCategories().size(), savedRecipeCommand.getCategories().size());

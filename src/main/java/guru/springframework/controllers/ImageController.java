@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Created by carlosmartinez on 2019-03-02 12:18
- */
+/** Created by carlosmartinez on 2019-03-02 12:18 */
 @RequiredArgsConstructor
 @Log4j2
 @RequestMapping("/recipe/{recipeId}/")
@@ -38,15 +36,15 @@ public class ImageController {
   }
 
   @PostMapping("image")
-  public String handleImagePost(@PathVariable final long recipeId,
-      @RequestParam("imagefile") final MultipartFile file) {
+  public String handleImagePost(
+      @PathVariable final long recipeId, @RequestParam("imagefile") final MultipartFile file) {
     imageService.saveImageFile(recipeId, file);
     return "redirect:/recipe/" + recipeId + "/show";
   }
 
   @GetMapping("recipeimage")
-  public void renderImageFromDB(@PathVariable final long recipeId,
-      final HttpServletResponse response) throws IOException {
+  public void renderImageFromDB(
+      @PathVariable final long recipeId, final HttpServletResponse response) throws IOException {
     final RecipeCommand command = recipeService.findCommandById(recipeId);
     if (command == null || command.getImage() == null) {
       return;

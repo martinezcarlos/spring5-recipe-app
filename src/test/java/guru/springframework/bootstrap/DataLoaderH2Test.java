@@ -18,20 +18,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by carlosmartinez on 2019-02-26 19:28
- */
-//@RunWith(SpringRunner.class)
+/** Created by carlosmartinez on 2019-02-26 19:28 */
+// @RunWith(SpringRunner.class)
 @DataJpaTest
 public class DataLoaderH2Test {
 
   private DataLoaderH2 loader;
-  @Mock
-  private RecipeRepository recipeRepository;
-  @Mock
-  private CategoryRepository categoryRepository;
-  @Mock
-  private UnitOfMeasureRepository unitOfMeasureRepository;
+  @Mock private RecipeRepository recipeRepository;
+  @Mock private CategoryRepository categoryRepository;
+  @Mock private UnitOfMeasureRepository unitOfMeasureRepository;
 
   @Before
   public void setUp() throws Exception {

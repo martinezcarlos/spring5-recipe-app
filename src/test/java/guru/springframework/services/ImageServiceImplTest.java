@@ -19,13 +19,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by carlosmartinez on 2019-03-04 20:45
- */
+/** Created by carlosmartinez on 2019-03-04 20:45 */
 public class ImageServiceImplTest {
 
-  @Mock
-  private RecipeRepository recipeRepository;
+  @Mock private RecipeRepository recipeRepository;
 
   private ImageService imageService;
 
@@ -38,8 +35,12 @@ public class ImageServiceImplTest {
   @Test
   public void saveImageFile() throws IOException {
     // Given
-    final MultipartFile multipartFile = new MockMultipartFile("imagefile", "testing.txt",
-        "text/plain", "Spring Framework Guru".getBytes(StandardCharsets.UTF_8));
+    final MultipartFile multipartFile =
+        new MockMultipartFile(
+            "imagefile",
+            "testing.txt",
+            "text/plain",
+            "Spring Framework Guru".getBytes(StandardCharsets.UTF_8));
     final Recipe recipe = new Recipe();
     recipe.setId(1L);
     when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));

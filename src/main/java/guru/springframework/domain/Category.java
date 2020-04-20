@@ -11,9 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-/**
- * Created by carlosmartinez on 04/12/2018 15:15
- */
+/** Created by carlosmartinez on 04/12/2018 15:15 */
 @Entity
 @Data
 @EqualsAndHashCode(exclude = {"recipes"})
@@ -23,7 +21,9 @@ public class Category {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String description;
+
   @ManyToMany(mappedBy = "categories")
   private Set<Recipe> recipes = new HashSet<>();
 }

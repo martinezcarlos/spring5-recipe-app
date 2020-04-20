@@ -25,15 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by carlosmartinez on 2019-03-02 12:26
- */
+/** Created by carlosmartinez on 2019-03-02 12:26 */
 public class ImageControllerTest {
 
-  @Mock
-  private ImageService imageService;
-  @Mock
-  private RecipeService recipeService;
+  @Mock private ImageService imageService;
+  @Mock private RecipeService recipeService;
   private ImageController imageController;
   private MockMvc mockMvc;
 
@@ -41,9 +37,10 @@ public class ImageControllerTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     imageController = new ImageController(imageService, recipeService);
-    mockMvc = MockMvcBuilders.standaloneSetup(imageController)
-        .setControllerAdvice(new ControllerExceptionHandler())
-        .build();
+    mockMvc =
+        MockMvcBuilders.standaloneSetup(imageController)
+            .setControllerAdvice(new ControllerExceptionHandler())
+            .build();
   }
 
   @Test
@@ -53,7 +50,8 @@ public class ImageControllerTest {
     command.setId(1L);
     when(recipeService.findCommandById(anyLong())).thenReturn(command);
     // When
-    mockMvc.perform(get("/recipe/1/image"))
+    mockMvc
+        .perform(get("/recipe/1/image"))
         .andExpect(status().isOk())
         .andExpect(model().attributeExists("recipe"));
     verify(recipeService, times(1)).findCommandById(anyLong());
@@ -62,11 +60,16 @@ public class ImageControllerTest {
   @Test
   public void handleImagePost() throws Exception {
     // Given
-    final MockMultipartFile file = new MockMultipartFile("imagefile", "testing.txt", "text/plain",
-        "Spring Framework Guru".getBytes(StandardCharsets.UTF_8));
+    final MockMultipartFile file =
+        new MockMultipartFile(
+            "imagefile",
+            "testing.txt",
+            "text/plain",
+            "Spring Framework Guru".getBytes(StandardCharsets.UTF_8));
     // When
     // Then
-    mockMvc.perform(multipart("/recipe/1/image").file(file))
+    mockMvc
+        .perform(multipart("/recipe/1/image").file(file))
         .andExpect(status().isFound())
         .andExpect(header().string("Location", "/recipe/1/show"));
     verify(imageService, times(1)).saveImageFile(anyLong(), any());
@@ -92,10 +95,12 @@ public class ImageControllerTest {
     when(recipeService.findCommandById(anyLong())).thenReturn(command);
 
     // When
-    final MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
-        .andExpect(status().isOk())
-        .andReturn()
-        .getResponse();
+    final MockHttpServletResponse response =
+        mockMvc
+            .perform(get("/recipe/1/recipeimage"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
 
     // Then
     assertEquals(sBytes.length, response.getContentAsByteArray().length);

@@ -5,9 +5,7 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * Created by carlosmartinez on 04/12/2018 15:44
- */
+/** Created by carlosmartinez on 04/12/2018 15:44 */
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 

@@ -16,9 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by carlosmartinez on 2019-02-28 17:11
- */
+/** Created by carlosmartinez on 2019-02-28 17:11 */
 @RequiredArgsConstructor
 @Log4j2
 @Service
@@ -29,19 +27,18 @@ public class IngredientServiceImpl implements IngredientService {
   private final UnitOfMeasureRepository unitOfMeasureRepository;
 
   @Override
-  public IngredientCommand findByRecipeIdAndIngredientId(final long recipeId,
-      final long ingredientId) {
+  public IngredientCommand findByRecipeIdAndIngredientId(
+      final long recipeId, final long ingredientId) {
     final Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
     if (!recipeOptional.isPresent()) {
       log.error("Recipe not found for id {}", recipeId);
       return null;
     }
-    final Optional<IngredientCommand> ingredientCommandOptional = recipeOptional.get()
-        .getIngredients()
-        .stream()
-        .filter(i -> i.getId().equals(ingredientId))
-        .map(i -> entityToCommandConverter.convert(i))
-        .findFirst();
+    final Optional<IngredientCommand> ingredientCommandOptional =
+        recipeOptional.get().getIngredients().stream()
+            .filter(i -> i.getId().equals(ingredientId))
+            .map(i -> entityToCommandConverter.convert(i))
+            .findFirst();
     if (!ingredientCommandOptional.isPresent()) {
       log.error("Ingredient not found for id {}", ingredientId);
       return null;
@@ -61,10 +58,8 @@ public class IngredientServiceImpl implements IngredientService {
       throw new NotFoundException("Recipe not found for id " + recipeId);
     }
     final Recipe recipe = recipeOptional.get();
-    final Optional<Ingredient> ingredientOptional = recipe.getIngredients()
-        .stream()
-        .filter(i -> i.getId().equals(command.getId()))
-        .findFirst();
+    final Optional<Ingredient> ingredientOptional =
+        recipe.getIngredients().stream().filter(i -> i.getId().equals(command.getId())).findFirst();
 
     final List<Ingredient> originalList;
     if (ingredientOptional.isPresent()) {
@@ -73,8 +68,11 @@ public class IngredientServiceImpl implements IngredientService {
       ingredient.setDescription(command.getDescription());
       ingredient.setAmount(command.getAmount());
       final Long uomId = command.getUnitOfMeasure().getId();
-      ingredient.setUnitOfMeasure(unitOfMeasureRepository.findById(uomId)
-          .orElseThrow(() -> new NotFoundException("Unit of measure not fount for id " + uomId)));
+      ingredient.setUnitOfMeasure(
+          unitOfMeasureRepository
+              .findById(uomId)
+              .orElseThrow(
+                  () -> new NotFoundException("Unit of measure not fount for id " + uomId)));
     } else {
       originalList = new ArrayList<>(recipe.getIngredients());
       recipe.addIngredient(commandToEntityConverter.convert(command));
@@ -84,17 +82,17 @@ public class IngredientServiceImpl implements IngredientService {
 
     final Ingredient ingredient;
     if (command.getId() == null) {
-      ingredient = savedRecipe.getIngredients()
-          .stream()
-          .filter(i -> !originalList.contains(i))
-          .findFirst()
-          .get();
+      ingredient =
+          savedRecipe.getIngredients().stream()
+              .filter(i -> !originalList.contains(i))
+              .findFirst()
+              .get();
     } else {
-      ingredient = savedRecipe.getIngredients()
-          .stream()
-          .filter(i -> i.getId().equals(command.getId()))
-          .findFirst()
-          .get();
+      ingredient =
+          savedRecipe.getIngredients().stream()
+              .filter(i -> i.getId().equals(command.getId()))
+              .findFirst()
+              .get();
     }
 
     return entityToCommandConverter.convert(ingredient);
@@ -111,10 +109,8 @@ public class IngredientServiceImpl implements IngredientService {
       throw new NotFoundException("No recipe found for id " + recipeId);
     }
     final Recipe recipe = recipeOptional.get();
-    final Optional<Ingredient> ingredientOptional = recipe.getIngredients()
-        .stream()
-        .filter(i -> i.getId().equals(ingredientId))
-        .findFirst();
+    final Optional<Ingredient> ingredientOptional =
+        recipe.getIngredients().stream().filter(i -> i.getId().equals(ingredientId)).findFirst();
 
     if (!ingredientOptional.isPresent()) {
       throw new NotFoundException("No ingredient found for id " + ingredientId);

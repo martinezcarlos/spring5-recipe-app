@@ -9,9 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 15:05
- */
+/** Created by carlosmartinez on 2019-02-24 15:05 */
 public class UnitOfMeasureCommandToUnitOfMeasureTest {
 
   public static final long ID = 1L;
@@ -35,13 +33,13 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
 
   @Test
   public void convert() {
-    //Given
+    // Given
     final UnitOfMeasureCommand uomc = new UnitOfMeasureCommand();
     uomc.setId(ID);
     uomc.setDescription(DUMMY_DESCRIPTION);
-    //When
+    // When
     final UnitOfMeasure uom = converter.convert(uomc);
-    //Then
+    // Then
     assertEquals(ID, uom.getId().longValue());
     assertEquals(DUMMY_DESCRIPTION, uom.getDescription());
   }

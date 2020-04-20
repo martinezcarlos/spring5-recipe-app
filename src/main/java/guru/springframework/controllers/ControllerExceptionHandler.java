@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * Created by carlosmartinez on 2019-03-12 20:53
- */
+/** Created by carlosmartinez on 2019-03-12 20:53 */
 @Log4j2
 @ControllerAdvice
 public class ControllerExceptionHandler {

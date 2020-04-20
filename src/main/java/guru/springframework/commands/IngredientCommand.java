@@ -5,9 +5,7 @@ import javax.persistence.Transient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Created by carlosmartinez on 2019-02-24 14:36
- */
+/** Created by carlosmartinez on 2019-02-24 14:36 */
 @Data
 @NoArgsConstructor
 public class IngredientCommand {
@@ -19,11 +17,6 @@ public class IngredientCommand {
 
   @Transient
   public String buildQuantityDescription() {
-    return new StringBuilder().append(amount.toString())
-        .append(" ")
-        .append(unitOfMeasure.getDescription())
-        .append(" of ")
-        .append(description)
-        .toString();
+    return amount.toString() + " " + unitOfMeasure.getDescription() + " of " + description;
   }
 }

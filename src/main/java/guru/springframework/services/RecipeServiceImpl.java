@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by carlosmartinez on 2018-12-10 12:46
- */
+/** Created by carlosmartinez on 2018-12-10 12:46 */
 @Service
 @Log4j2
 @RequiredArgsConstructor
@@ -44,7 +42,8 @@ public class RecipeServiceImpl implements RecipeService {
   @Override
   public Recipe findById(final Long id) {
     log.debug("=== Getting recipe with id {} ===", id);
-    return recipeRepository.findById(id)
+    return recipeRepository
+        .findById(id)
         .orElseThrow(() -> new NotFoundException("Recipe not found for id " + id));
   }
 

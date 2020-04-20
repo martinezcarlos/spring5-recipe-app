@@ -9,13 +9,11 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by carlosmartinez on 2019-02-24 15:39
- */
+/** Created by carlosmartinez on 2019-02-24 15:39 */
 public class CategoryCommandToCategoryTest {
 
-  public static final long ID = 1L;
-  public static final String DUMMY_DESCRIPTION = "Dummy description";
+  private static final long ID = 1L;
+  private static final String DUMMY_DESCRIPTION = "Dummy description";
   private CategoryCommandToCategory converter;
 
   @Before
@@ -35,13 +33,13 @@ public class CategoryCommandToCategoryTest {
 
   @Test
   public void convert() {
-    //Given
+    // Given
     final CategoryCommand command = new CategoryCommand();
     command.setId(ID);
     command.setDescription(DUMMY_DESCRIPTION);
-    //When
+    // When
     final Category entity = converter.convert(command);
-    //Then
+    // Then
     assertEquals(ID, entity.getId().longValue());
     assertEquals(DUMMY_DESCRIPTION, entity.getDescription());
   }

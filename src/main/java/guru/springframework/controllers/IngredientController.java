@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * Created by carlosmartinez on 2019-02-27 16:47
- */
+/** Created by carlosmartinez on 2019-02-27 16:47 */
 @RequiredArgsConstructor
 @RequestMapping("/recipe/{recipeId}/")
 @Controller
@@ -34,18 +32,18 @@ public class IngredientController {
   }
 
   @GetMapping("ingredient/{ingredientId}/show")
-  public String listIngredients(@PathVariable final long recipeId,
-      @PathVariable final long ingredientId, final Model model) {
-    model.addAttribute("ingredient",
-        ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
+  public String listIngredients(
+      @PathVariable final long recipeId, @PathVariable final long ingredientId, final Model model) {
+    model.addAttribute(
+        "ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
     return "recipe/ingredient/show";
   }
 
   @GetMapping("ingredient/{ingredientId}/update")
-  public String updateIngredient(@PathVariable final long recipeId,
-      @PathVariable final long ingredientId, final Model model) {
-    model.addAttribute("ingredient",
-        ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
+  public String updateIngredient(
+      @PathVariable final long recipeId, @PathVariable final long ingredientId, final Model model) {
+    model.addAttribute(
+        "ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
     model.addAttribute("uomList", unitOfMeasureService.findAllUnitOfMeasuresCommand());
     return "recipe/ingredient/ingredientform";
   }
@@ -75,8 +73,8 @@ public class IngredientController {
 
   @PostMapping
   @RequestMapping("ingredient/{ingredientId}/delete")
-  public String deleteIngredient(@PathVariable final long recipeId,
-      @PathVariable final long ingredientId) {
+  public String deleteIngredient(
+      @PathVariable final long recipeId, @PathVariable final long ingredientId) {
     ingredientService.deleteById(recipeId, ingredientId);
     return "redirect:/recipe/" + recipeId + "/ingredients";
   }

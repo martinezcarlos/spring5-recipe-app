@@ -11,9 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:08
- */
+/** Created by carlosmartinez on 2019-02-24 16:08 */
 public class IngredientCommandToIngredientTest {
 
   private static final BigDecimal AMOUNT = new BigDecimal("1");
@@ -21,7 +19,7 @@ public class IngredientCommandToIngredientTest {
   private static final Long ID_VALUE = new Long(1L);
   private static final Long UOM_ID = new Long(2L);
 
-  IngredientCommandToIngredient converter;
+  private IngredientCommandToIngredient converter;
 
   @Before
   public void setUp() {
@@ -40,7 +38,7 @@ public class IngredientCommandToIngredientTest {
 
   @Test
   public void convert() {
-    //given
+    // given
     final IngredientCommand command = new IngredientCommand();
     command.setId(ID_VALUE);
     command.setAmount(AMOUNT);
@@ -49,10 +47,10 @@ public class IngredientCommandToIngredientTest {
     unitOfMeasureCommand.setId(UOM_ID);
     command.setUnitOfMeasure(unitOfMeasureCommand);
 
-    //when
+    // when
     final Ingredient ingredient = converter.convert(command);
 
-    //then
+    // then
     assertNotNull(ingredient);
     assertNotNull(ingredient.getUnitOfMeasure());
     assertEquals(ID_VALUE, ingredient.getId());
@@ -63,16 +61,16 @@ public class IngredientCommandToIngredientTest {
 
   @Test
   public void convertWithNullUOM() {
-    //given
+    // given
     final IngredientCommand command = new IngredientCommand();
     command.setId(ID_VALUE);
     command.setAmount(AMOUNT);
     command.setDescription(DESCRIPTION);
 
-    //when
+    // when
     final Ingredient ingredient = converter.convert(command);
 
-    //then
+    // then
     assertNotNull(ingredient);
     assertNull(ingredient.getUnitOfMeasure());
     assertEquals(ID_VALUE, ingredient.getId());

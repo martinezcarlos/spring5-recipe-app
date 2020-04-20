@@ -13,9 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:15
- */
+/** Created by carlosmartinez on 2019-02-24 16:15 */
 public class RecipeCommandToRecipeTest {
 
   private static final Long RECIPE_ID = 1L;
@@ -33,13 +31,15 @@ public class RecipeCommandToRecipeTest {
   private static final Long INGRED_ID_2 = 4L;
   private static final Long NOTES_ID = 9L;
 
-  RecipeCommandToRecipe converter;
+  private RecipeCommandToRecipe converter;
 
   @Before
   public void setUp() throws Exception {
-    converter = new RecipeCommandToRecipe(new CategoryCommandToCategory(),
-        new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()),
-        new NotesCommandToNotes());
+    converter =
+        new RecipeCommandToRecipe(
+            new CategoryCommandToCategory(),
+            new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()),
+            new NotesCommandToNotes());
   }
 
   @Test
@@ -49,7 +49,7 @@ public class RecipeCommandToRecipeTest {
 
   @Test
   public void convert() throws Exception {
-    //given
+    // given
     final RecipeCommand recipeCommand = new RecipeCommand();
     recipeCommand.setId(RECIPE_ID);
     recipeCommand.setCookTime(COOK_TIME);
@@ -84,7 +84,7 @@ public class RecipeCommandToRecipeTest {
     recipeCommand.getIngredients().add(ingredient);
     recipeCommand.getIngredients().add(ingredient2);
 
-    //when
+    // when
     final Recipe recipe = converter.convert(recipeCommand);
 
     assertNotNull(recipe);

@@ -12,9 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:10
- */
+/** Created by carlosmartinez on 2019-02-24 16:10 */
 public class IngredientToIngredientCommandTest {
 
   private static final Recipe RECIPE = new Recipe();
@@ -23,7 +21,7 @@ public class IngredientToIngredientCommandTest {
   private static final Long UOM_ID = new Long(2L);
   private static final Long ID_VALUE = new Long(1L);
 
-  IngredientToIngredientCommand converter;
+  private IngredientToIngredientCommand converter;
 
   @Before
   public void setUp() throws Exception {
@@ -42,16 +40,16 @@ public class IngredientToIngredientCommandTest {
 
   @Test
   public void testConvertNullUOM() throws Exception {
-    //given
+    // given
     final Ingredient ingredient = new Ingredient();
     ingredient.setId(ID_VALUE);
     ingredient.setRecipe(RECIPE);
     ingredient.setAmount(AMOUNT);
     ingredient.setDescription(DESCRIPTION);
     ingredient.setUnitOfMeasure(null);
-    //when
+    // when
     final IngredientCommand ingredientCommand = converter.convert(ingredient);
-    //then
+    // then
     assertNull(ingredientCommand.getUnitOfMeasure());
     assertEquals(ID_VALUE, ingredientCommand.getId());
     // assertEquals(RECIPE, ingredientCommand.get);
@@ -61,7 +59,7 @@ public class IngredientToIngredientCommandTest {
 
   @Test
   public void testConvertWithUom() throws Exception {
-    //given
+    // given
     final Ingredient ingredient = new Ingredient();
     ingredient.setId(ID_VALUE);
     ingredient.setRecipe(RECIPE);
@@ -72,9 +70,9 @@ public class IngredientToIngredientCommandTest {
     uom.setId(UOM_ID);
 
     ingredient.setUnitOfMeasure(uom);
-    //when
+    // when
     final IngredientCommand ingredientCommand = converter.convert(ingredient);
-    //then
+    // then
     assertEquals(ID_VALUE, ingredientCommand.getId());
     assertNotNull(ingredientCommand.getUnitOfMeasure());
     assertEquals(UOM_ID, ingredientCommand.getUnitOfMeasure().getId());

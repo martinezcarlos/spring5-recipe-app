@@ -10,9 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by carlosmartinez on 2019-02-24 16:04
- */
+/** Created by carlosmartinez on 2019-02-24 16:04 */
 @RequiredArgsConstructor
 @Component
 public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
@@ -43,13 +41,16 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
     command.setImage(source.getImage());
 
     if (CollectionUtils.isNotEmpty(source.getCategories())) {
-      source.getCategories()
-          .forEach((Category category) -> command.getCategories()
-              .add(categoryConveter.convert(category)));
+      source
+          .getCategories()
+          .forEach(
+              (Category category) ->
+                  command.getCategories().add(categoryConveter.convert(category)));
     }
 
     if (CollectionUtils.isNotEmpty(source.getIngredients())) {
-      source.getIngredients()
+      source
+          .getIngredients()
           .forEach(
               ingredient -> command.getIngredients().add(ingredientConverter.convert(ingredient)));
     }
